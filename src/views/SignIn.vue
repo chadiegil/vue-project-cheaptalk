@@ -7,7 +7,6 @@ const email = ref("");
 const password = ref("");
 const router = useRouter();
 const errMsg = ref(false);
-const emailName = ref("");
 
 function getEmailName(email) {
   // Split the email address on the @ symbol.

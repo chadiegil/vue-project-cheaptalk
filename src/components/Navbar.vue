@@ -1,19 +1,18 @@
 <script setup>
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
-
+import { auth } from "../firebase/init.js";
 import { onMounted, ref } from "vue";
 const isLoggedIn = ref(false);
 const emailName = ref("");
 
 const router = useRouter();
 
-let auth;
 onMounted(() => {
-  auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
+      emailName.value = getEmailName(user.email);
     } else {
       isLoggedIn.value = false;
     }
@@ -35,14 +34,6 @@ function getEmailName(email) {
   // Return the first part of the email address.
   return parts[0];
 }
-
-onMounted(() => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      emailName.value = getEmailName(user.email);
-    }
-  });
-});
 </script>
 <template>
   <nav>
@@ -56,7 +47,11 @@ onMounted(() => {
             <router-link to="/">Home</router-link>
           </li>
           <li>
-            <router-link to="/Feed">Feed</router-link>
+            <router-link to="/feed">Feed</router-link>
+          </li>
+
+          <li>
+            <router-link to="/create-post">Create Posts</router-link>
           </li>
           <li v-if="!isLoggedIn">
             <router-link to="/register">Register</router-link>
