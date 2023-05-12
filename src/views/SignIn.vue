@@ -24,12 +24,9 @@ const login = (e) => {
 
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
-      console.log("Successfully login!!");
-      emailName.value = getEmailName(data.user.email);
       router.push("/feed");
     })
     .catch((err) => {
-      console.log(err.message);
       switch (err.code) {
         case "auth/invalid-email":
           ``;
@@ -46,7 +43,6 @@ const login = (e) => {
           break;
       }
     });
-  console.log(emailName);
 };
 </script>
 <template>
@@ -54,7 +50,12 @@ const login = (e) => {
     <form class="form" @submit.prevent="login">
       <p class="form-title">Sign in to your account</p>
       <div class="input-container">
-        <input type="email" placeholder="Enter email" v-model="email" />
+        <input
+          type="email"
+          placeholder="Enter email"
+          v-model="email"
+          required
+        />
         <span> </span>
       </div>
       <div class="input-container">
@@ -62,6 +63,7 @@ const login = (e) => {
           type="password"
           placeholder="Enter password"
           v-model="password"
+          required
         />
         <p v-if="errMsg" class="err-mgs">{{ errMsg }}</p>
       </div>

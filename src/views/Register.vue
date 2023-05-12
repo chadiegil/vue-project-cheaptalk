@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
+const errMsg = ref("");
 const router = useRouter();
 
 const register = (e) => {
@@ -12,22 +13,32 @@ const register = (e) => {
 
   createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
-      console.log("Successfully registered!");
       router.push("/feed");
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => (errMsg.value = extractValueInParenthesis(err.message)));
 };
 
-const goto = () => {
-  router.push("/register");
-};
+function extractValueInParenthesis(str) {
+  const regex = /\((.*?)\)/; // regex to match text inside parentheses
+  const matches = str.match(regex);
+  if (matches) {
+    const value = matches[1].replace("auth/", ""); // remove "auth/" prefix
+    return value;
+  }
+  return ""; // return empty string if no match found
+}
 </script>
 <template>
   <div class="container">
     <form class="form" @submit.prevent="register">
       <p class="form-title">Register account</p>
       <div class="input-container">
-        <input type="email" placeholder="Enter email" v-model="email" />
+        <input
+          type="email"
+          placeholder="Enter email"
+          v-model="email"
+          required
+        />
         <span> </span>
       </div>
       <div class="input-container">
@@ -35,9 +46,10 @@ const goto = () => {
           type="password"
           placeholder="Enter password"
           v-model="password"
+          required
         />
-        <p v-if="errMsg">{{ errMsg }}</p>
       </div>
+      <p v-if="errMsg" class="errMsg">{{ errMsg }}</p>
       <button type="submit" class="submit">Register</button>
 
       <p class="signup-link">
@@ -114,5 +126,9 @@ const goto = () => {
 
 .signup-link a {
   text-decoration: underline;
+}
+.errMsg {
+  color: red;
+  text-align: center;
 }
 </style>
