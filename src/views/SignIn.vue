@@ -62,7 +62,7 @@ const login = (e) => {
           placeholder="Enter password"
           v-model="password"
         />
-        <p v-if="errMsg">{{ errMsg }}</p>
+        <p v-if="errMsg" class="err-mgs">{{ errMsg }}</p>
       </div>
       <button type="submit" class="submit">Sign in</button>
 
@@ -140,5 +140,9 @@ const login = (e) => {
 
 .signup-link a {
   text-decoration: underline;
+}
+.err-mgs {
+  text-align: center;
+  color: red;
 }
 </style>
