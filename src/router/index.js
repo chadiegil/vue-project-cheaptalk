@@ -23,6 +23,14 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
+    {
+      path: "/all-users",
+      component: () => import("../views/User.vue"),
+    },
+    {
+      path: "/create-post",
+      component: () => import("../views/Post.vue"),
+    },
   ],
 });
 
