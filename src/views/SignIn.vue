@@ -7,6 +7,15 @@ const email = ref("");
 const password = ref("");
 const router = useRouter();
 const errMsg = ref(false);
+const emailName = ref("");
+
+function getEmailName(email) {
+  // Split the email address on the @ symbol.
+  const parts = email.split("@");
+
+  // Return the first part of the email address.
+  return parts[0];
+}
 
 const login = (e) => {
   e.preventDefault();
@@ -16,6 +25,7 @@ const login = (e) => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
       console.log("Successfully login!!");
+      emailName.value = getEmailName(data.user.email);
       router.push("/feed");
     })
     .catch((err) => {
@@ -36,19 +46,10 @@ const login = (e) => {
           break;
       }
     });
-  console.log("youre login!");
+  console.log(emailName);
 };
 </script>
 <template>
-  <!-- <h1>Sign In</h1>
-
-  <div>
-    <input type="text" placeholder="Email" v-model="email" />
-    <input type="password" placeholder="Password" v-model="password" />
-    <p v-if="errMsg">{{ errMsg }}</p>
-    <button @click="register">Submit</button>
-  </div> -->
-
   <div class="container">
     <form class="form" @submit.prevent="login">
       <p class="form-title">Sign in to your account</p>

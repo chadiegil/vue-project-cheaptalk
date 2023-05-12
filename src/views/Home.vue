@@ -1,13 +1,8 @@
 <script setup></script>
 <template>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <h1>Home</h1>
-  <div></div>
+  <div v-for="post in posts" :key="post.id">
+    {{ post.title }}
+  </div>
 </template>
 
 <style scoped></style>
