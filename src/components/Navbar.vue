@@ -60,10 +60,10 @@ onMounted(() => {
           <li>
             <router-link to="/Feed">Feed</router-link>
           </li>
-          <li>
+          <li v-if="!isLoggedIn">
             <router-link to="/register">Register</router-link>
           </li>
-          <li>
+          <li v-if="!isLoggedIn">
             <router-link to="/sign-in">Login</router-link>
           </li>
           <li>
