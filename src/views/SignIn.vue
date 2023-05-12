@@ -68,7 +68,7 @@ const login = (e) => {
 
       <p class="signup-link">
         No account?
-        <a href="">Sign up</a>
+        <router-link to="/register">Sign up</router-link>
       </p>
     </form>
   </div>

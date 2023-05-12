@@ -42,7 +42,7 @@ const goto = () => {
 
       <p class="signup-link">
         Already have an account ?
-        <a href="">Login</a>
+        <router-link to="/sign-in">Sign up</router-link>
       </p>
     </form>
   </div>
