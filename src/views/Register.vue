@@ -82,7 +82,7 @@ const goto = () => {
   background-color: #fff;
   padding: 1rem;
   padding-right: 3rem;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   line-height: 1.25rem;
   width: 300px;
   border-radius: 0.5rem;
