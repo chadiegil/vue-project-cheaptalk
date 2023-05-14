@@ -1,11 +1,28 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, computed } from "vue";
 import { db } from "../firebase/init.js";
 import { collection, getDocs } from "firebase/firestore";
 import Spinner from "../components/Spinner.vue";
 
 const posts = ref([]);
 const isLoading = ref(true);
+
+const state = reactive({
+  filterdPost: posts,
+  searchQuery: "",
+});
+
+// const filterdPostsComputed = computed(() => {
+//   if (state.searchQuery) {
+//     return state.filterdPost.filter(
+//       (item) =>
+//         typeof item.text === "string" &&
+//         item.toLowerCase().includes(state.searchQuery.toLocaleLowerCase())
+//     );
+//   } else {
+//     return state.filterdPost;
+//   }
+// });
 
 onMounted(async () => {
   const querySnapshot = await getDocs(collection(db, "posts"));
@@ -26,6 +43,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <input v-model="state.searchQuery" type="text" placeholder="Search..." />
   <div v-if="isLoading" class="center-spinner">
     <Spinner />
   </div>
