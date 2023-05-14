@@ -1,18 +1,20 @@
 <script setup>
 import { ref } from "vue";
 
-import db from "../firebase/init.js";
+import { db } from "../firebase/init.js";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 import { useRouter } from "vue-router";
+import Spinner from "../components/Spinner.vue";
 
 const title = ref("");
 const description = ref("");
 const errMsg = ref("");
+const isLoading = ref(false);
 
 const router = useRouter();
 
-const createUser = async () => {
+const createPost = async () => {
   const colref = collection(db, "posts");
 
   const dataObj = {
@@ -23,16 +25,16 @@ const createUser = async () => {
 
   await addDoc(colref, dataObj);
   router.push("/");
+  isLoading.value = true;
 };
-
-// onMounted(() => {
-//     // createUser();
-// });
 </script>
 
 <template>
-  <div class="container">
-    <form @submit.prevent="createUser">
+  <div v-if="isLoading">
+    <Spinner />
+  </div>
+  <div class="container" v-else>
+    <form @submit.prevent="createPost">
       <p class="form-title">Post new Item</p>
       <div class="input-container">
         <input type="text" placeholder="Title" v-model="title" required />

@@ -2,8 +2,10 @@
 import { ref, onMounted } from "vue";
 import { db } from "../firebase/init.js";
 import { collection, getDocs } from "firebase/firestore";
+import Spinner from "../components/Spinner.vue";
 
 const posts = ref([]);
+const isLoading = ref(true);
 
 onMounted(async () => {
   const querySnapshot = await getDocs(collection(db, "posts"));
@@ -18,12 +20,16 @@ onMounted(async () => {
     };
     postsLocal.push(post);
   });
-
   posts.value = postsLocal;
+  isLoading.value = false;
 });
 </script>
+
 <template>
-  <div v-for="post in posts" :key="post.id" class="card-container">
+  <div v-if="isLoading" class="center-spinner">
+    <Spinner />
+  </div>
+  <div v-else v-for="post in posts" :key="post.id" class="card-container">
     <div class="card">
       <h3 class="card__title">{{ post.title }}</h3>
       <p class="card__content">
@@ -49,8 +55,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* this card is inspired form this - https://georgefrancis.dev/ */
-
 .card-container {
   margin: 20px;
   display: grid;

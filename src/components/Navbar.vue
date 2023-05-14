@@ -9,6 +9,7 @@ const emailName = ref("");
 const router = useRouter();
 
 onMounted(() => {
+  //check the current loggin user
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true;
@@ -51,7 +52,12 @@ function getEmailName(email) {
           </li>
 
           <li>
-            <router-link to="/create-post">Create Posts</router-link>
+            <router-link to="/create-post" v-if="isLoggedIn"
+              >Create Posts</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/authors">Authors</router-link>
           </li>
           <li v-if="!isLoggedIn">
             <router-link to="/register">Register</router-link>

@@ -2,11 +2,13 @@
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
+import Spinner from "../components/Spinner.vue";
 
 const email = ref("");
 const password = ref("");
 const router = useRouter();
 const errMsg = ref(false);
+const isLoading = ref(false);
 
 function getEmailName(email) {
   // Split the email address on the @ symbol.
@@ -42,10 +44,14 @@ const login = (e) => {
           break;
       }
     });
+  isLoading.value = true;
 };
 </script>
 <template>
-  <div class="container">
+  <div v-if="isLoading">
+    <Spinner />
+  </div>
+  <div class="container" v-else>
     <form class="form" @submit.prevent="login">
       <p class="form-title">Sign in to your account</p>
       <div class="input-container">

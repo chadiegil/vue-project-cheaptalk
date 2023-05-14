@@ -2,13 +2,15 @@
 import { ref } from "vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
+import Spinner from "../components/Spinner.vue";
 
 const email = ref("");
 const password = ref("");
 const errMsg = ref("");
 const router = useRouter();
+const isLoading = ref(false);
 
-const register = (e) => {
+const register = async (e) => {
   e.preventDefault();
 
   createUserWithEmailAndPassword(getAuth(), email.value, password.value)
@@ -16,6 +18,7 @@ const register = (e) => {
       router.push("/feed");
     })
     .catch((err) => (errMsg.value = extractValueInParenthesis(err.message)));
+  isLoading.value = true;
 };
 
 function extractValueInParenthesis(str) {
@@ -29,7 +32,10 @@ function extractValueInParenthesis(str) {
 }
 </script>
 <template>
-  <div class="container">
+  <div v-if="isLoading">
+    <Spinner />
+  </div>
+  <div class="container" v-else>
     <form class="form" @submit.prevent="register">
       <p class="form-title">Register account</p>
       <div class="input-container">
