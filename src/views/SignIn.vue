@@ -10,14 +10,6 @@ const router = useRouter();
 const errMsg = ref(false);
 const isLoading = ref(false);
 
-function getEmailName(email) {
-  // Split the email address on the @ symbol.
-  const parts = email.split("@");
-
-  // Return the first part of the email address.
-  return parts[0];
-}
-
 const login = (e) => {
   e.preventDefault();
 
