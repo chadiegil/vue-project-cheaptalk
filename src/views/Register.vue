@@ -4,7 +4,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
 import Spinner from "../components/Spinner.vue";
 import { db } from "../firebase/init.js";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const email = ref("");
 const password = ref("");
@@ -35,14 +35,13 @@ const register = async (e) => {
   if (password.value !== confirmPassword.value) {
     alert("password dont match");
     confirmPassword.value = "";
-    email.value = "";
     password.value = "";
     return;
   }
 
   createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
-      router.push("/feed");
+      router.push("/authors");
     })
     .catch((err) => (errMsg.value = extractValueInParenthesis(err.message)));
   isLoading.value = true;
