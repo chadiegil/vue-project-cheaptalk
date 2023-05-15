@@ -137,6 +137,7 @@ const login = (e) => {
   width: 100%;
   border-radius: 0.5rem;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .signup-link {

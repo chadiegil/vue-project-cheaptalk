@@ -3,12 +3,30 @@ import { ref } from "vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
 import Spinner from "../components/Spinner.vue";
+import { db } from "../firebase/init.js";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const email = ref("");
 const password = ref("");
+const gender = ref("");
 const errMsg = ref("");
 const router = useRouter();
 const isLoading = ref(false);
+
+// creating a users
+
+const createUser = async () => {
+  const colRef = collection(db, "users");
+
+  const userObj = {
+    name: email.value,
+    password: password.value,
+    gender: gender.value,
+  };
+
+  await addDoc(colRef, userObj);
+  // isLoading.value = true;
+};
 
 const register = async (e) => {
   e.preventDefault();
@@ -19,6 +37,7 @@ const register = async (e) => {
     })
     .catch((err) => (errMsg.value = extractValueInParenthesis(err.message)));
   isLoading.value = true;
+  createUser();
 };
 
 function extractValueInParenthesis(str) {
@@ -30,6 +49,7 @@ function extractValueInParenthesis(str) {
   }
   return ""; // return empty string if no match found
 }
+console.log(gender);
 </script>
 <template>
   <div v-if="isLoading">
@@ -54,6 +74,16 @@ function extractValueInParenthesis(str) {
           v-model="password"
           required
         />
+      </div>
+      <div class="radio-style">
+        <div>
+          <input type="radio" id="male" value="male" v-model="gender" />
+          <label for="male">Male</label>
+        </div>
+        <div>
+          <input type="radio" id="female" value="female" v-model="gender" />
+          <label for="female">Female</label>
+        </div>
       </div>
       <p v-if="errMsg" class="errMsg">{{ errMsg }}</p>
       <button type="submit" class="submit">Register</button>
@@ -121,6 +151,7 @@ function extractValueInParenthesis(str) {
   width: 100%;
   border-radius: 0.5rem;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .signup-link {
@@ -136,5 +167,18 @@ function extractValueInParenthesis(str) {
 .errMsg {
   color: red;
   text-align: center;
+}
+/* radio style */
+
+.radio-style {
+  padding: 10px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-direction: column;
+  cursor: pointer;
+}
+.radio-style div > label {
+  cursor: pointer;
 }
 </style>
