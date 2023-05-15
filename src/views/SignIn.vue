@@ -22,7 +22,6 @@ const login = (e) => {
     .catch((err) => {
       switch (err.code) {
         case "auth/invalid-email":
-          ``;
           errMsg.value = "Invalid email";
           break;
         case "auth/user-not-found":
@@ -40,10 +39,10 @@ const login = (e) => {
 };
 </script>
 <template>
-  <div v-if="isLoading">
+  <!-- <div v-if="isLoading">
     <Spinner />
-  </div>
-  <div class="container" v-else>
+  </div> -->
+  <div class="container">
     <form class="form" @submit.prevent="login">
       <p class="form-title">Sign in to your account</p>
       <div class="input-container">
