@@ -112,27 +112,25 @@ const deletePost = (id) => {
 
 <style scoped>
 .card-container {
-  margin: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 20px;
-  border: 1px solid red;
+margin: 20px;
+border: 1px solid var(--primary-color);
 }
 
 .card {
-  --border-radius: 0.75rem;
-  --primary-color: #7257fa;
-  --secondary-color: #3c3852;
-  width: 210px;
-  font-family: "Arial";
-  padding: 1rem;
-  cursor: pointer;
-  border-radius: var(--border-radius);
-  background: #f1f1f3;
-  box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
-  position: relative;
+--border-radius: 0.75rem;
+--primary-color: #2980b9;;
+--secondary-color: #3c3852;
+width: 100%;
+font-family: "Arial";
+padding: 1rem;
+cursor: pointer;
+border-radius: var(--border-radius);
+background: #dfdfe2;
+box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+position: relative;
+margin-bottom: 20px;
+margin-right: 20px;
 }
-
 .card > * + * {
   margin-top: 1.1em;
 }
@@ -185,63 +183,25 @@ const deletePost = (id) => {
   transform: translateX(3px);
 }
 
-/* input search */
 .search {
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 50px; /* Adjust the margin-top value to center the search box vertically */
 }
 
 .search__input {
-  font-family: inherit;
-  font-size: inherit;
-  background-color: #f4f2f2;
-  border: none;
-  color: #646464;
-  padding: 0.7rem 1rem;
-  border-radius: 30px;
-  width: 12em;
-  transition: all ease-in-out 0.5s;
-  margin-right: -2rem;
-}
-
-.search__input:hover,
-.search__input:focus {
-  box-shadow: 0 0 1em #00000013;
+padding: 10px;
+width: 300px;
+border-radius: 5px;
+border: 1px solid #ccc;
+font-size: 16px;
+transition: box-shadow 0.3s ease;
 }
 
 .search__input:focus {
-  outline: none;
-  background-color: #f0eeee;
+outline: none;
+box-shadow: 0 0 5px #7257fa;
 }
 
-.search__input::-webkit-input-placeholder {
-  font-weight: 100;
-  color: #ccc;
-}
-
-.search__input:focus + .search__button {
-  background-color: #f0eeee;
-}
-
-.search__button {
-  border: none;
-  background-color: #f4f2f2;
-  margin-top: 0.1em;
-}
-
-.search__button:hover {
-  cursor: pointer;
-}
-
-.search__icon {
-  height: 1.3em;
-  width: 1.3em;
-  fill: #b4b4b4;
-}
-.search input:focus {
-  width: 250px;
-}
 </style>
