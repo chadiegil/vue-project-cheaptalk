@@ -62,8 +62,8 @@ const deletePost = (id) => {
         </svg>
       </button>
     </div>
-    <div>
-      <select name="category" id="posts" v-model="selectedCat">
+    <div >
+      <select name="category" class="filter" id="posts" v-model="selectedCat">
         <option value="" disabled selected>Select an category</option>
         <option v-for="post in posts" :key="post.id" value="post.category">
           {{ post.category }}
@@ -202,6 +202,15 @@ transition: box-shadow 0.3s ease;
 .search__input:focus {
 outline: none;
 box-shadow: 0 0 5px #7257fa;
+}
+
+.filter{
+  padding: 10px;
+width: 300px;
+border-radius: 5px;
+border: 1px solid #ccc;
+outline:none;
+margin-left: 20px;
 }
 
 </style>
