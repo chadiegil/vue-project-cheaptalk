@@ -37,7 +37,7 @@ const router = createRouter({
     },
     {
       path: "/delete/:id",
-      component: () => import("../views/Delete.vue"),
+      component: () => import("../views/delete.vue"),
     },
     {
       path: "/authors",
