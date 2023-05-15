@@ -8,6 +8,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const gender = ref("");
 const errMsg = ref("");
 const router = useRouter();
@@ -31,6 +32,14 @@ const createUser = async () => {
 const register = async (e) => {
   e.preventDefault();
 
+  if (password.value !== confirmPassword.value) {
+    alert("password dont match");
+    confirmPassword.value = "";
+    email.value = "";
+    password.value = "";
+    return;
+  }
+
   createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
       router.push("/feed");
@@ -49,7 +58,6 @@ function extractValueInParenthesis(str) {
   }
   return ""; // return empty string if no match found
 }
-console.log(gender);
 </script>
 <template>
   <div v-if="isLoading">
@@ -72,6 +80,14 @@ console.log(gender);
           type="password"
           placeholder="Enter password"
           v-model="password"
+          required
+        />
+      </div>
+      <div class="input-container">
+        <input
+          type="password"
+          placeholder="Re-enter password"
+          v-model="confirmPassword"
           required
         />
       </div>

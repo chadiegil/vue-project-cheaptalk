@@ -47,7 +47,10 @@ const genderClass = computed(() => {
             <p class="text-title">{{ author.name }}</p>
             <p class="text-body">Here are the details of the card</p>
           </div>
-          <button class="card-button" :class="genderClass(author.gender)">
+          <button
+            class="card-button"
+            :style="author.gender === male ? '#0000FF' : '#FFC0CB'"
+          >
             {{ author.gender }}
           </button>
         </div>
