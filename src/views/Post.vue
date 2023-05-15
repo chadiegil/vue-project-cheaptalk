@@ -10,6 +10,7 @@ import Spinner from "../components/Spinner.vue";
 const title = ref("");
 const description = ref("");
 const errMsg = ref("");
+const category = ref("");
 const isLoading = ref(false);
 
 const router = useRouter();
@@ -20,6 +21,7 @@ const createPost = async () => {
   const dataObj = {
     title: title.value,
     description: description.value,
+    category: category.value,
     createdAt: serverTimestamp(),
   };
 
@@ -42,6 +44,9 @@ const createPost = async () => {
       </div>
       <div class="input-container">
         <input type="text" placeholder="Description" v-model="description" />
+      </div>
+      <div class="input-container">
+        <input type="text" placeholder="Category" v-model="category" />
       </div>
       <p v-if="errMsg" class="err-mgs">{{ errMsg }}</p>
       <button type="submit" class="submit">Post</button>
