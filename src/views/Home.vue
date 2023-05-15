@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import Spinner from "../components/Spinner.vue";
 import SearchInput from "../components/SeachInput.vue";
 import { useRouter } from "vue-router";
+import { Icon } from "@iconify/vue";
 
 const posts = ref([]);
 const isLoading = ref(true);
@@ -62,7 +63,7 @@ const deletePost = (id) => {
         </svg>
       </button>
     </div>
-    <div >
+    <div>
       <select name="category" class="filter" id="posts" v-model="selectedCat">
         <option value="" disabled selected>Select an category</option>
         <option v-for="post in posts" :key="post.id" value="post.category">
@@ -81,8 +82,14 @@ const deletePost = (id) => {
     class="card-container"
   >
     <div class="card">
-      <button @click.prevent="editPost(post.id)">edit</button>
-      <button @click.prevent="deletePost(post.id)">delete</button>
+      <div class="container-btn">
+        <button @click.prevent="editPost(post.id)">
+          <Icon icon="mdi-light:pencil" width="20" color="green" />
+        </button>
+        <button @click.prevent="deletePost(post.id)">
+          <Icon icon="mdi-light:delete" width="20" color="red" />
+        </button>
+      </div>
       <h3 class="card__title">{{ post.title }}</h3>
       <p class="card__content">
         {{ post.description }}
@@ -111,25 +118,31 @@ const deletePost = (id) => {
 </template>
 
 <style scoped>
+.container-btn {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  gap: 10px;
+}
 .card-container {
-margin: 20px;
-border: 1px solid var(--primary-color);
+  margin: 20px;
+  border: 1px solid var(--primary-color);
 }
 
 .card {
---border-radius: 0.75rem;
---primary-color: #2980b9;;
---secondary-color: #3c3852;
-width: 100%;
-font-family: "Arial";
-padding: 1rem;
-cursor: pointer;
-border-radius: var(--border-radius);
-background: #dfdfe2;
-box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
-position: relative;
-margin-bottom: 20px;
-margin-right: 20px;
+  --border-radius: 0.75rem;
+  --primary-color: #2980b9;
+  --secondary-color: #3c3852;
+  width: 100%;
+  font-family: "Arial";
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: #dfdfe2;
+  box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+  position: relative;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 .card > * + * {
   margin-top: 1.1em;
@@ -184,33 +197,32 @@ margin-right: 20px;
 }
 
 .search {
-display: flex;
-justify-content: center;
-align-items: center;
-margin-top: 50px; /* Adjust the margin-top value to center the search box vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px; /* Adjust the margin-top value to center the search box vertically */
 }
 
 .search__input {
-padding: 10px;
-width: 300px;
-border-radius: 5px;
-border: 1px solid #ccc;
-font-size: 16px;
-transition: box-shadow 0.3s ease;
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: box-shadow 0.3s ease;
 }
 
 .search__input:focus {
-outline: none;
-box-shadow: 0 0 5px #7257fa;
+  outline: none;
+  box-shadow: 0 0 5px #7257fa;
 }
 
-.filter{
+.filter {
   padding: 10px;
-width: 300px;
-border-radius: 5px;
-border: 1px solid #ccc;
-outline:none;
-margin-left: 20px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  margin-left: 20px;
 }
-
 </style>
