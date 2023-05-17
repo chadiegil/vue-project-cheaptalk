@@ -1,39 +1,46 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import { useRoute, useRouter } from "vue-router";
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { app } from "../firebase/init.js";
 
 const postId = ref("");
-const post = ref(null);
+const singlePost = ref({
+  title: "",
+  description: "",
+  category: "",
+});
 
 const router = useRoute();
+const route = useRouter();
 const db = getFirestore(app);
 
-const singlePost = ref([]);
 postId.value = router.params.id;
 
 const getPost = async (postId) => {
   const docRef = doc(db, "posts", postId);
-  getDoc(docRef).then((doc) => {
-    singlePost.value = doc.data();
-  });
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    singlePost.value = docSnap.data();
+  } else {
+    console.log("No such document!");
+  }
 };
 
-const updatePost = async (postId) => {
-  const docRef = doc(db, "posts", postId);
-  //   setDoc(docRef, singlePost.value)
-  //     .then((docRef) => {
-  //       console.log("Entire Document has been updated successfully");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
+const updatePost = async () => {
+  const docRef = doc(db, "posts", postId.value);
+  await updateDoc(docRef, singlePost.value);
+  route.push("/");
 };
 
 onMounted(() => {
   getPost(postId.value);
-  updatePost(postId.value, singlePost);
 });
 </script>
 

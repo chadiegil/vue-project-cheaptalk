@@ -28,11 +28,11 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-const genderClass = computed(() => {
-  return (gender) => {
-    gender === "male" ? "blue" : "pink";
-  };
-});
+// const genderClass = computed(() => {
+//   return (gender) => {
+//     gender === "male" ? "blue" : "pink";
+//   };
+// });
 </script>
 <template>
   <div v-if="isLoading">
@@ -42,14 +42,21 @@ const genderClass = computed(() => {
     <h1>Authors</h1>
     <div class="flex">
       <div v-for="author in authors" :key="author.id">
-        <div class="card item">
+        <div
+          class="card item"
+          :style="{
+            background: author.gender === 'male' ? '#2980b9' : 'pink',
+          }"
+        >
           <div class="card-details">
             <p class="text-title">{{ author.name }}</p>
             <p class="text-body">Here are the details of the card</p>
           </div>
           <button
             class="card-button"
-            :style="author.gender === male ? '#0000FF' : '#FFC0CB'"
+            :style="{
+              background: author.gender === 'male' ? 'blue' : 'pink',
+            }"
           >
             {{ author.gender }}
           </button>
@@ -97,13 +104,18 @@ const genderClass = computed(() => {
 }
 
 .text-body {
-  color: rgb(134, 134, 134);
+  color: rgb(241, 236, 236);
 }
 
 /*Text*/
 .text-title {
   font-size: 1em;
   font-weight: bold;
+  color: white;
+  /* word-wrap: break-word; */
+  white-space: nowrap; /* Prevents line breaks within the text */
+  overflow: hidden; /* Hides any overflowing content */
+  text-overflow: ellipsis;
 }
 
 /*Hover*/
@@ -124,7 +136,7 @@ const genderClass = computed(() => {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 100px;
+  gap: 50px;
 }
 .item {
   flex: 1;
