@@ -40,16 +40,16 @@ function getEmailName(email) {
   <nav>
     <div class="navbar">
       <div class="logo">
-        <router-link to="/">Cheaptalk</router-link>
+        <router-link to="/">Cheaptalk.com</router-link>
       </div>
       <div class="menu">
         <ul>
           <li>
             <router-link to="/">Home</router-link>
           </li>
-          <li>
+          <!-- <li>
             <router-link to="/feed">Feed</router-link>
-          </li>
+          </li> -->
 
           <li>
             <router-link to="/create-post" v-if="isLoggedIn"

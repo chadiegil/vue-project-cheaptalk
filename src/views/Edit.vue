@@ -49,17 +49,19 @@ onMounted(() => {
     <p class="form-title">Edit Post</p>
 
     <div class="input-container">
-      <label for="title">Title</label>
+      <label for="title">Title</label><br />
       <input type="text" v-model="singlePost.title" />
       <span> </span>
     </div>
     <div class="input-container">
-      <label for="title">Description</label>
+      <br />
+      <label for="title">Description</label><br />
 
       <input type="text" v-model="singlePost.description" />
     </div>
     <div class="input-container">
-      <label for="title">Category</label>
+      <br />
+      <label for="title">Category</label><br />
 
       <input type="text" placeholder="Category" v-model="singlePost.category" />
     </div>
@@ -73,10 +75,15 @@ onMounted(() => {
   background-color: #fff;
   display: block;
   padding: 1rem;
-  max-width: 350px;
+  max-width: 700px;
+  width: 500px;
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .form-title {
@@ -104,7 +111,7 @@ onMounted(() => {
   padding-right: 3rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  width: 300px;
+  width: 470px;
   border-radius: 0.5rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
