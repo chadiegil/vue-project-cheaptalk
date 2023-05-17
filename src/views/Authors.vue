@@ -45,7 +45,7 @@ onMounted(async () => {
         <div
           class="card item"
           :style="{
-            background: author.gender === 'male' ? '#2980b9' : 'pink',
+            background: author.gender === 'male' ? '#2980b9' : '	#FF69B4',
           }"
         >
           <div class="card-details">
@@ -55,7 +55,7 @@ onMounted(async () => {
           <button
             class="card-button"
             :style="{
-              background: author.gender === 'male' ? 'blue' : 'pink',
+              background: author.gender === 'male' ? 'dimgray' : 'dimgray',
             }"
           >
             {{ author.gender }}
@@ -74,7 +74,7 @@ onMounted(async () => {
   background: #f5f5f5;
   position: relative;
   padding: 1.8rem;
-  border: 2px solid #c3c6ce;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
   transition: 0.5s ease-out;
   overflow: visible;
 }
@@ -146,6 +146,15 @@ onMounted(async () => {
   color: blue;
 }
 .pink {
-  color: rgb(223, 94, 115);
+  color: rgb(187, 79, 97);
+}
+
+h1 {
+  font-weight: 550;
+  color: dimgray;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 30px;
 }
 </style>
