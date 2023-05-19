@@ -63,14 +63,6 @@ const deletePost = (id) => {
         </svg>
       </button>
     </div>
-    <div>
-      <select name="category" class="filter" id="posts" v-model="selectedCat">
-        <option value="" disabled selected>Select an category</option>
-        <option v-for="post in posts" :key="post.id" value="post.category">
-          {{ post.category }}
-        </option>
-      </select>
-    </div>
   </div>
   <div v-if="isLoading" class="center-spinner">
     <Spinner />
