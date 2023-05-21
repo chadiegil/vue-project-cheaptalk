@@ -4,12 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD6H_yZ0sZ-kXyvqU_aosbSnnX_L0jmTSo",
-  authDomain: "vue-project-1-3d191.firebaseapp.com",
-  projectId: "vue-project-1-3d191",
-  storageBucket: "vue-project-1-3d191.appspot.com",
-  messagingSenderId: "1065959393015",
-  appId: "1:1065959393015:web:963b196f2f1bc12afbb5f2",
+  apiKey: "AIzaSyAwvoGVU-QIQeWtUMGAsr2_Krb1Gxc1oo8",
+  authDomain: "mini-capstone-firebase-d7d40.firebaseapp.com",
+  projectId: "mini-capstone-firebase-d7d40",
+  storageBucket: "mini-capstone-firebase-d7d40.appspot.com",
+  messagingSenderId: "125752017597",
+  appId: "1:125752017597:web:ae1ac14df0c7782ac36dd4",
 };
 
 const app = initializeApp(firebaseConfig);
