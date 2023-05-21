@@ -29,6 +29,7 @@ onMounted(async () => {
       description: doc.data().description,
       category: doc.data().category,
       createdAt: doc.data().createdAt,
+      userId: doc.data().userId,
     };
     postsLocal.push(post);
   });

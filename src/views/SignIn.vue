@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
-import Spinner from "../components/Spinner.vue";
 
 const email = ref("");
 const password = ref("");
@@ -39,9 +38,6 @@ const login = (e) => {
 };
 </script>
 <template>
-  <!-- <div v-if="isLoading">
-    <Spinner />
-  </div> -->
   <div class="container">
     <form class="form" @submit.prevent="login">
       <p class="form-title">Sign in to your account</p>

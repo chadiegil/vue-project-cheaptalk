@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
-import { db } from "../firebase/init.js";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app, db, auth } from "../firebase/init.js";
 
 import { useRouter } from "vue-router";
 import Spinner from "../components/Spinner.vue";
@@ -11,6 +12,7 @@ const title = ref("");
 const description = ref("");
 const errMsg = ref("");
 const category = ref("");
+const userIdPost = ref(null);
 const isLoading = ref(false);
 
 const router = useRouter();
@@ -23,12 +25,25 @@ const createPost = async () => {
     description: description.value,
     category: category.value,
     createdAt: serverTimestamp(),
+    userId: userIdPost.value,
   };
 
   await addDoc(colref, dataObj);
   router.push("/");
   isLoading.value = true;
 };
+
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      userIdPost.value = uid;
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+});
 </script>
 
 <template>

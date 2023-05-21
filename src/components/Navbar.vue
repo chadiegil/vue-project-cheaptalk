@@ -59,6 +59,9 @@ function getEmailName(email) {
           <li>
             <router-link to="/authors">Authors</router-link>
           </li>
+          <li>
+            <router-link to="/feed">Feed</router-link>
+          </li>
           <li v-if="!isLoggedIn">
             <router-link to="/register">Register</router-link>
           </li>
