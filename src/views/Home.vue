@@ -9,15 +9,26 @@ import { Icon } from "@iconify/vue";
 const posts = ref([]);
 const isLoading = ref(true);
 const selectedCat = ref("");
-
+const currentPage = ref(1);
+const pageSize = 5;
 const router = useRouter();
 
 const filteredPosts = computed(() => {
   return posts.value.filter((post) =>
     selectedCat.value === "all"
-      ? post
+      ? true
       : post.category.includes(selectedCat.value)
   );
+});
+
+const pageCount = computed(() => {
+  return Math.ceil(filteredPosts.value.length / pageSize);
+});
+
+const paginatedPosts = computed(() => {
+  const startIndex = (currentPage.value - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  return filteredPosts.value.slice(startIndex, endIndex);
 });
 
 onMounted(async () => {
@@ -38,17 +49,22 @@ onMounted(async () => {
   posts.value = postsLocal;
   isLoading.value = false;
 });
+
 const editPost = (id) => {
   router.push(`/edit/${id}`);
 };
+
 const deletePost = (id) => {
   router.push(`/delete/${id}`);
+};
+
+const setPage = (page) => {
+  currentPage.value = page;
 };
 </script>
 
 <template>
   <div class="div">
-    <!-- <SearchInput /> -->
     <div class="search">
       <select
         name="category"
@@ -69,7 +85,7 @@ const deletePost = (id) => {
   </div>
   <div
     v-else
-    v-for="post in filteredPosts"
+    v-for="post in paginatedPosts"
     :key="post.id"
     class="card-container"
   >
@@ -83,13 +99,8 @@ const deletePost = (id) => {
         </button>
       </div>
       <h3 class="card__title">{{ post.title }}</h3>
-      <p class="card__content">
-        {{ post.description }}
-      </p>
-      <p>
-        category
-        {{ post.category }}
-      </p>
+      <p class="card__content">{{ post.description }}</p>
+      <p>category {{ post.category }}</p>
       <div class="card__date">{{ post.createdAt }}</div>
       <div class="card__arrow">
         <svg
@@ -106,6 +117,26 @@ const deletePost = (id) => {
         </svg>
       </div>
     </div>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: -30px">
+    <button
+      v-for="page in pageCount"
+      :key="page"
+      @click="setPage(page)"
+      :class="{ edit: page === currentPage, delete: page !== currentPage }"
+      style="
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        border: none;
+        color: white;
+        margin: 2px;
+        background-color: blue;
+        margin-top: 20px;
+      "
+    >
+      {{ page }}
+    </button>
   </div>
 </template>
 
