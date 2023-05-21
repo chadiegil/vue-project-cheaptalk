@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
-import Spinner from "../components/Spinner.vue";
 import { db } from "../firebase/init.js";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -59,10 +58,7 @@ function extractValueInParenthesis(str) {
 }
 </script>
 <template>
-  <div v-if="isLoading">
-    <Spinner />
-  </div>
-  <div class="container" v-else>
+  <div class="container">
     <form class="form" @submit.prevent="register">
       <p class="form-title">Register account</p>
       <div class="input-container">

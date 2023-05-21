@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { db } from "../firebase/init.js";
 
 import { collection, getDocs } from "firebase/firestore";
@@ -27,12 +27,6 @@ onMounted(async () => {
   authors.value = authorLocal;
   isLoading.value = false;
 });
-
-// const genderClass = computed(() => {
-//   return (gender) => {
-//     gender === "male" ? "blue" : "pink";
-//   };
-// });
 </script>
 <template>
   <div v-if="isLoading">
