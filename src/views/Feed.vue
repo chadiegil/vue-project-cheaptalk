@@ -1,16 +1,17 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, query, where, getDocs, getDoc } from "firebase/firestore";
-import { app, db, auth } from "../firebase/init.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db, auth } from "../firebase/init.js";
 import Spinner from "../components/Spinner.vue";
+
 const userPosts = ref([]);
+const isLoading = ref(true);
 
 onMounted(() => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const uid = user.uid;
-      console.log(uid);
       const postsRef = collection(db, "posts");
 
       const q = query(postsRef, where("userId", "==", uid));
@@ -19,7 +20,6 @@ onMounted(() => {
       const postsLocal = [];
 
       querySnapshot.forEach((doc) => {
-        // console.log(doc.id, "=>", doc.data());
         const post = {
           id: doc.id,
           title: doc.data().title,
@@ -31,18 +31,20 @@ onMounted(() => {
         postsLocal.push(post);
       });
       userPosts.value = postsLocal;
+      isLoading.value = false;
     } else {
       // User is signed out
       // ...
     }
   });
-  console.log(userPosts.value);
 });
 </script>
 <template>
-  <h1>Feed</h1>
-
-  <div v-for="post in userPosts" :key="post.id" class="card-container">
+  <h1 class="title-heading">Feed</h1>
+  <div v-if="isLoading">
+    <Spinner />
+  </div>
+  <div v-else v-for="post in userPosts" :key="post.id" class="card-container">
     <div class="card">
       <div class="container-btn">
         <button @click.prevent="editPost(post.id)"></button>
@@ -76,6 +78,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.title-heading {
+  text-align: center;
+}
 .container-btn {
   display: flex;
   align-items: end;

@@ -3,19 +3,32 @@ import { ref, onMounted, computed } from "vue";
 import { db } from "../firebase/init.js";
 import { collection, getDocs } from "firebase/firestore";
 import Spinner from "../components/Spinner.vue";
-import SearchInput from "../components/SeachInput.vue";
 import { useRouter } from "vue-router";
 import { Icon } from "@iconify/vue";
 
 const posts = ref([]);
 const isLoading = ref(true);
 const selectedCat = ref("");
-const query = ref("");
-
+const currentPage = ref(1);
+const pageSize = 5;
 const router = useRouter();
 
 const filteredPosts = computed(() => {
-  return posts.value.filter((post) => post.title.includes(query.value));
+  return posts.value.filter((post) =>
+    selectedCat.value === "all"
+      ? true
+      : post.category.includes(selectedCat.value)
+  );
+});
+
+const pageCount = computed(() => {
+  return Math.ceil(filteredPosts.value.length / pageSize);
+});
+
+const paginatedPosts = computed(() => {
+  const startIndex = (currentPage.value - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  return filteredPosts.value.slice(startIndex, endIndex);
 });
 
 onMounted(async () => {
@@ -36,33 +49,35 @@ onMounted(async () => {
   posts.value = postsLocal;
   isLoading.value = false;
 });
+
 const editPost = (id) => {
   router.push(`/edit/${id}`);
 };
+
 const deletePost = (id) => {
   router.push(`/delete/${id}`);
+};
+
+const setPage = (page) => {
+  currentPage.value = page;
 };
 </script>
 
 <template>
   <div class="div">
-    <!-- <SearchInput /> -->
     <div class="search">
-      <input
-        type="text"
+      <select
+        name="category"
+        id="category"
+        v-model="selectedCat"
         class="search__input"
-        v-model="query"
-        placeholder="Type your text"
-      />
-      <button class="search__button">
-        <svg class="search__icon" aria-hidden="true" viewBox="0 0 24 24">
-          <g>
-            <path
-              d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-            ></path>
-          </g>
-        </svg>
-      </button>
+      >
+        <option disabled value="">Select Category</option>
+        <option value="all">All</option>
+        <option v-for="post in posts" :value="post.category" :key="post.id">
+          {{ post.category }}
+        </option>
+      </select>
     </div>
   </div>
   <div v-if="isLoading" class="center-spinner">
@@ -70,7 +85,7 @@ const deletePost = (id) => {
   </div>
   <div
     v-else
-    v-for="post in filteredPosts"
+    v-for="post in paginatedPosts"
     :key="post.id"
     class="card-container"
   >
@@ -84,13 +99,8 @@ const deletePost = (id) => {
         </button>
       </div>
       <h3 class="card__title">{{ post.title }}</h3>
-      <p class="card__content">
-        {{ post.description }}
-      </p>
-      <p>
-        category
-        {{ post.category }}
-      </p>
+      <p class="card__content">{{ post.description }}</p>
+      <p>category {{ post.category }}</p>
       <div class="card__date">{{ post.createdAt }}</div>
       <div class="card__arrow">
         <svg
@@ -107,6 +117,26 @@ const deletePost = (id) => {
         </svg>
       </div>
     </div>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: -30px">
+    <button
+      v-for="page in pageCount"
+      :key="page"
+      @click="setPage(page)"
+      :class="{ edit: page === currentPage, delete: page !== currentPage }"
+      style="
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        border: none;
+        color: white;
+        margin: 2px;
+        background-color: blue;
+        margin-top: 20px;
+      "
+    >
+      {{ page }}
+    </button>
   </div>
 </template>
 
